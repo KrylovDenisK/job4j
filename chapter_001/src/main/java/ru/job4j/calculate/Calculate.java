@@ -1,4 +1,4 @@
-﻿package ru.job4j.calculate;
+package ru.job4j.calculate;
 /**
  * Calculate Класс для вывода Hellow World  
  * @author krylov
