@@ -15,4 +15,10 @@ public class Max {
     public int max(int first, int second) {
         return first > second ? first : second;
     }
+    public int maxThree(int first, int second, int third) {
+        int temp = this.max(first, second);
+        return this.max(temp, third);
+    }
+
+
 }

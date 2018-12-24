@@ -13,5 +13,12 @@ public class MaxTest {
         assertThat(result, is(2));
     }
 
+    @Test
+    public void whenFirstAndSecondLessThird() {
+        Max maxim = new Max();
+        int result = maxim.maxThree(1, 2, 9);
+        assertThat(result, is(9));
+    }
+
 
 }
