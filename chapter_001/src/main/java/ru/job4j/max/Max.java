@@ -16,8 +16,7 @@ public class Max {
         return first > second ? first : second;
     }
     public int maxThree(int first, int second, int third) {
-        int temp = this.max(first, second);
-        return this.max(temp, third);
+        return this.max(this.max(first, second), third);
     }
 
 
