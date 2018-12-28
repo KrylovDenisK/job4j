@@ -14,4 +14,20 @@ public class BubbleSortTest {
         int[] expect = new int[] {0, 1, 1, 2, 3, 4, 5, 5, 7, 8};
         assertThat(result, is(expect));
     }
+    @Test
+    public void whenSortArrayWithFiveElementsThenSortedArray() {
+        int[] mas = {10, 8, 9, 5, 7};
+        BubbleSort array = new BubbleSort();
+        int[] result = array.sort(mas);
+        int[] expect = new int[] {5, 7, 8, 9, 10};
+        assertThat(result, is(expect));
+    }
+    @Test
+    public void whenSortArraySixFElementsThenSortedArray() {
+        int[] mas = {8, 5, 15, 1, 0};
+        BubbleSort array = new BubbleSort();
+        int[] result = array.sort(mas);
+        int[] expect = new int[] {0, 1, 5, 8, 15};
+        assertThat(result, is(expect));
+    }
 }
