@@ -4,6 +4,11 @@ import java.util.Arrays;
   Удаление дубликатов элементов в массиве String
  */
 public class ArrayDuplicate {
+    /**
+     * Поиск дубликатов, создание массива без дубликатов
+     * @param array Массив с дубликатами
+     * @return Массив без дубликатов
+     */
     public String[] fillNullDublicate(String[] array) {
         int n = array.length;
         for (int i = 0; i < n; i++) {
