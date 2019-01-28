@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import java.util.Random;
+import java.util.Arrays;
 
 public class Tracker {
     private final Item[] items = new Item[100];
@@ -47,6 +48,7 @@ public class Tracker {
         boolean result = false;
         for (int i = 0; i < this.items.length; i++) {
             if (this.items[i] != null && this.items[i].getId().equals(id)) {
+                item.setId(id);
                 this.items[i] = item;
                 result = true;
                 break;
@@ -64,6 +66,7 @@ public class Tracker {
         for (int i = 0; i < this.items.length; i++) {
             if (this.items[i] != null && this.items[i].getId().equals(id)) {
                 System.arraycopy(this.items, i + 1, items, i, items.length - i - 1);
+                this.position--;
                 result = true;
                 break;
             }
@@ -74,16 +77,7 @@ public class Tracker {
      * @return array возвращает копию массива this.items без null элементов
      */
     public Item[] findAll() {
-        int i;
-        Item[] array;
-        for (i = 0; i < this.items.length; i++) {
-            if (this.items[i] == null) {
-                break;
-            }
-        }
-        array = new Item[i];
-        System.arraycopy(items, 0, array, 0, i);
-        return array;
+        return Arrays.copyOf(this.items, this.position);
     }
     /**
      * Метод отбирает заявки по key(this.name) и сохраняет в массив
@@ -99,9 +93,7 @@ public class Tracker {
                 i++;
             }
         }
-        Item[] result = new Item[i];
-        System.arraycopy(array, 0, result, 0, i);
-        return result;
+        return  Arrays.copyOf(array, i);
     }
 }
 
