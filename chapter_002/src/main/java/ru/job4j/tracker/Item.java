@@ -14,12 +14,12 @@ public class Item {
      * Конструктор нового объекта
      * @param name имя заявки
      * @param desc описание
-     * @param created
+     //* @param created
      */
-    public Item(String name, String desc, long created) {
+    public Item(String name, String desc) {
         this.name = name;
         this.desc = desc;
-        this.created = created;
+        //this.created = created;
     }
     /**
      * Метод задает значение поля this.id по входящему параметру
@@ -46,5 +46,9 @@ public class Item {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDesc() {
+        return this.desc;
     }
 }
