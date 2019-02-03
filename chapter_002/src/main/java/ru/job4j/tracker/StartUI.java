@@ -96,7 +96,7 @@ public class StartUI {
     private void showAllItems() {
             System.out.println("-------------- Список заявок---------------");
             for (Item item : this.tracker.findAll()) {
-                System.out.println("Нименование заявки: " + item.getName() + " ID заявки: " + item.getId());
+                System.out.println(item.toString());
             }
 
         }
@@ -134,7 +134,7 @@ public class StartUI {
             System.out.println("------------ Поиск заявок по имени --------------");
             String name = this.input.ask("Введите имя заявки :");
             for (Item item : this.tracker.findByName(name)) {
-                System.out.println("Нименование заявки: " + item.getName() + " ID заявки: " + item.getId());
+                System.out.println(item.toString());
             }
         }
 

@@ -47,8 +47,12 @@ public class Item {
     public void setName(String name) {
         this.name = name;
     }
-
     public String getDesc() {
         return this.desc;
     }
+    @Override
+    public String toString() {
+        return "Наменование заявки: " + this.getName() + " ID заявки: " + this.getId();
+    }
+
 }
