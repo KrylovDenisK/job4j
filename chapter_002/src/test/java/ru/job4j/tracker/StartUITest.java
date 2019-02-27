@@ -1,10 +1,28 @@
 package ru.job4j.tracker;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class StartUITest {
+    private final PrintStream stdout = new PrintStream(System.out);
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    @Before
+    public void loadOutput() {
+        System.setOut(new PrintStream(out));
+    }
+    @After
+    public void backOutput() {
+        System.setOut(stdout);
+    }
+
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
@@ -33,4 +51,71 @@ public class StartUITest {
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll(), is(new Item[]{firstItem, threeItem}));
     }
+
+    @Test
+    public void whenShowAllItemThenSeeAllItem() {
+        Tracker tracker = new Tracker();
+        Item firstItem = tracker.add(new Item("name1", "desc1"));
+        Item secondItem = tracker.add(new Item("name2", "desc2"));
+        Item threeItem = tracker.add(new Item("name3", "desc3"));
+        Input input = new StubInput(new String[]{"1", "6"});
+        System.setOut(new PrintStream(out));
+        StringBuilder expect = new StringBuilder()
+                .append("Меню.\n")
+                .append("0. Add new Item\n")
+                .append("1. Show all items\n")
+                .append("2. Edit item\n")
+                .append("3. Delete item\n")
+                .append("4. Find item by Id\n")
+                .append("5. Find items by name\n")
+                .append("6. Exit Program\n\r\n")
+                .append("-------------- Список заявок---------------\r\n")
+                .append("Наменование заявки: name1 ID заявки: " + firstItem.getId() + "\r\n")
+                .append("Наменование заявки: name2 ID заявки: " + secondItem.getId() + "\r\n")
+                .append("Наменование заявки: name3 ID заявки: " + threeItem.getId() + "\r\n")
+                .append("Меню.\n")
+                .append("0. Add new Item\n")
+                .append("1. Show all items\n")
+                .append("2. Edit item\n")
+                .append("3. Delete item\n")
+                .append("4. Find item by Id\n")
+                .append("5. Find items by name\n")
+                .append("6. Exit Program\n\r\n");
+        new StartUI(input, tracker).init();
+        assertThat(out.toString(), is(expect.toString()));
+        System.setOut(stdout);
+    }
+    @Test
+    public void whenFindItemByIdThenShowThisItem() {
+        Tracker tracker = new Tracker();
+        Item firstItem = tracker.add(new Item("name1", "desc1"));
+        Item secondItem = tracker.add(new Item("name2", "desc2"));
+        Item threeItem = tracker.add(new Item("name3", "desc3"));
+        Input input = new StubInput(new String[]{"4", secondItem.getId(), "6"});
+        System.setOut(new PrintStream(out));
+        StringBuilder expect = new StringBuilder()
+                .append("Меню.\n")
+                .append("0. Add new Item\n")
+                .append("1. Show all items\n")
+                .append("2. Edit item\n")
+                .append("3. Delete item\n")
+                .append("4. Find item by Id\n")
+                .append("5. Find items by name\n")
+                .append("6. Exit Program\n\r\n")
+                .append("------------ Поиск заявки по ID --------------\r\n")
+                .append("Имя заявки: " + secondItem.getName() + " Описание заявки: " + secondItem.getDesc() + "\r\n")
+                .append("Меню.\n")
+                .append("0. Add new Item\n")
+                .append("1. Show all items\n")
+                .append("2. Edit item\n")
+                .append("3. Delete item\n")
+                .append("4. Find item by Id\n")
+                .append("5. Find items by name\n")
+                .append("6. Exit Program\n\r\n");
+        new StartUI(input, tracker).init();
+        assertThat(out.toString(), is(expect.toString()));
+        System.setOut(stdout);
+
+    }
+
 }
