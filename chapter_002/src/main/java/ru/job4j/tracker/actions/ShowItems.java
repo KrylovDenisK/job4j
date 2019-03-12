@@ -1,6 +1,10 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.actions;
 
-public class ShowItems implements UserAction{
+import ru.job4j.tracker.Item;
+import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.inputs.Input;
+
+public class ShowItems implements UserAction {
     @Override
     public int key() {
         return 1;
@@ -14,6 +18,6 @@ public class ShowItems implements UserAction{
     }
     @Override
     public String info() {
-        return "1. Show All Items.";
+        return "1. Show All items";
     }
 }

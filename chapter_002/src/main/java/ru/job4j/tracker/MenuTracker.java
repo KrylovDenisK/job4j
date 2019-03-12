@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import ru.job4j.tracker.actions.*;
+import ru.job4j.tracker.inputs.Input;
+
 import java.util.ArrayList;
 
 public class MenuTracker {
@@ -21,7 +24,7 @@ public class MenuTracker {
         return this.actions.size();
     }
 
-    /**
+   /**
      * Метод заполняет массив.
      */
     public void fillActions() {

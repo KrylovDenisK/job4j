@@ -1,4 +1,8 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.actions;
+
+import ru.job4j.tracker.Item;
+import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.inputs.Input;
 
 public class FindItemById implements UserAction {
     @Override
@@ -18,7 +22,7 @@ public class FindItemById implements UserAction {
     }
     @Override
     public String info() {
-        return "4. Find Item By Id.";
+        return "4. Find item by Id";
     }
 }
 

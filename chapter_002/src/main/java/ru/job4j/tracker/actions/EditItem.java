@@ -1,4 +1,8 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.actions;
+
+import ru.job4j.tracker.Item;
+import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.inputs.Input;
 
 public class EditItem implements UserAction {
     @Override
@@ -12,10 +16,15 @@ public class EditItem implements UserAction {
         String desc = input.ask("Введите описание новой заявки :");
         String id = input.ask("Введите id изменяемой заявки");
         Item item = new Item(name, desc);
-        tracker.replace(id, item);
+        if (tracker.replace(id, item)) {
+            System.out.println("Операция выполнена!");
+        } else {
+            System.out.println("Операция не выполнена!");
+        }
     }
+
     @Override
     public String info() {
-        return "2. Edit Item on tracker.";
+        return "2. Edit item";
     }
 }
