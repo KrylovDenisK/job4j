@@ -4,8 +4,6 @@ import ru.job4j.tracker.inputs.ConsoleInput;
 import ru.job4j.tracker.inputs.Input;
 import ru.job4j.tracker.inputs.ValidateInput;
 
-
-
 public class StartUI {
     private final Input input;
     /**
@@ -37,7 +35,7 @@ public class StartUI {
         } while (!"y".equals(this.input.ask("Exit?(y): ")));
     }
         public static void main(String[] args) {
-            new StartUI(new ValidateInput(), new Tracker()).init();
+            new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
         }
 
 }
