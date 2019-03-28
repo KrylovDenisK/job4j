@@ -4,10 +4,9 @@ import ru.job4j.tracker.Item;
 import ru.job4j.tracker.Tracker;
 import ru.job4j.tracker.inputs.Input;
 
-public class FindItemById implements UserAction {
-    @Override
-    public int key() {
-        return 4;
+public class FindItemById extends BaseAction {
+    public FindItemById(int key, String name) {
+        super(key, name);
     }
     @Override
     public void execute(Input input, Tracker tracker) {
@@ -19,10 +18,6 @@ public class FindItemById implements UserAction {
         } else {
             System.out.println("Заявка не найдена!!!");
         }
-    }
-    @Override
-    public String info() {
-        return "4. Find item by Id";
     }
 }
 

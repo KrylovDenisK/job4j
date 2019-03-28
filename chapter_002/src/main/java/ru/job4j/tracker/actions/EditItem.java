@@ -4,10 +4,9 @@ import ru.job4j.tracker.Item;
 import ru.job4j.tracker.Tracker;
 import ru.job4j.tracker.inputs.Input;
 
-public class EditItem implements UserAction {
-    @Override
-    public int key() {
-        return 2;
+public class EditItem extends BaseAction {
+    public EditItem(int key, String name) {
+        super(key, name);
     }
     @Override
     public void execute(Input input, Tracker tracker) {
@@ -22,9 +21,5 @@ public class EditItem implements UserAction {
             System.out.println("Операция не выполнена!");
         }
     }
-
-    @Override
-    public String info() {
-        return "2. Edit item";
-    }
 }
+
