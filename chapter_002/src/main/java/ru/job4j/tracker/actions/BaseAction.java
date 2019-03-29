@@ -1,7 +1,5 @@
 package ru.job4j.tracker.actions;
 
-import ru.job4j.tracker.Tracker;
-import ru.job4j.tracker.inputs.Input;
 
 public abstract class BaseAction implements UserAction {
     private final int key;
@@ -11,6 +9,7 @@ public abstract class BaseAction implements UserAction {
         this.key = key;
         this.name = name;
     }
+
    @Override
     public String info() {
        return String.format("%s. %s", this.key, this.name);
@@ -19,6 +18,5 @@ public abstract class BaseAction implements UserAction {
     public int key() {
         return this.key;
    }
-   //@Override
-   // public abstract void execute(Input input, Tracker tracker);
+
 }

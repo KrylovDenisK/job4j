@@ -5,6 +5,7 @@ import ru.job4j.tracker.inputs.Input;
 import ru.job4j.tracker.inputs.ValidateInput;
 
 public class StartUI {
+    private boolean work = true;
     private final Input input;
     /**
      * Хранилище заявок.
@@ -19,12 +20,16 @@ public class StartUI {
         this.input = input;
         this.tracker = tracker;
     }
+
+    public void setWork(boolean work) {
+        this.work = work;
+    }
     /**
      * Основой цикл программы.
      */
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
-        menu.fillActions();
+        menu.fillActions(this);
         int[] range = new int[menu.getActionsLentgh()];
         for (int i = 0; i < menu.getActionsLentgh(); i++) {
             range[i] = i;
@@ -32,8 +37,9 @@ public class StartUI {
         do {
             menu.show();
             menu.select(input.ask("select:", range));
-        } while (!"y".equals(this.input.ask("Exit?(y): ")));
+        } while (work);
     }
+
         public static void main(String[] args) {
             new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
         }
