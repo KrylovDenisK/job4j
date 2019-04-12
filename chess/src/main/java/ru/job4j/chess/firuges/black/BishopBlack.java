@@ -35,21 +35,8 @@ public class BishopBlack implements Figure {
         int deltaX = source.x - dest.x;
         int deltaY = source.y - dest.y;
 
-        if (deltaX < 0 && deltaY > 0) {
-            for (int i = 0; i < lenght; i++) {
-                steps[i] = cell.getValue(source.x + i, source.y - i);
-            }
-        } else if (deltaX > 0 && deltaY > 0) {
-            for (int i = 0; i < lenght; i++) {
-                steps[i] = cell.getValue(source.x - i, source.y - i);
-            }
-        } else if (deltaX < 0 && deltaY < 0) {
-            for (int i = 0; i < lenght; i++) {
-                steps[i] = cell.getValue(source.x + i, source.y + i);
-            }
-        } else if (deltaX > 0 && deltaY < 0) {
-            for (int i = 0; i < lenght; i++)
-                steps[i] = cell.getValue(source.x - i, source.y + i);
+        for (int i = 0; i < lenght; i++) {
+            steps[i] = cell.getValue(deltaX < 0 ? source.x + i : source.x - i, deltaY < 0 ? source.y + i : source.y - i);
         }
         return steps;
         }
