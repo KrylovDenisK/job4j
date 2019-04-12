@@ -1,6 +1,8 @@
 package ru.job4j.chess;
 
 import javafx.scene.control.Alert;
+import ru.job4j.chess.exeptions.ImpossibleMoveException;
+import ru.job4j.chess.exeptions.OccupiedWayException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
@@ -31,33 +33,44 @@ public class Logic {
      * @param dest требуемое положение
      * @return Результат передвижения (да \ нет)
      */
-    public boolean move(Cell source, Cell dest) {
+    public boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException {
         boolean rst = false;
-        int index = this.findBy(source); // поиск фигуры в массиве фигур
-        if (index != -1) { // Если нашли
+        int index = this.findBy(source);
+        if (index != -1) {
             Cell[] steps = this.figures[index].way(source, dest);
                 if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                    if (freeCell(steps)) {
-                        rst = true;
-                        this.figures[index] = this.figures[index].copy(dest);
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("ОШИБКА");
-                        alert.setHeaderText("Одна из клеток занята");
-                        alert.setContentText("Повторите свой ход");
-                        alert.showAndWait();
-                    }
+                     if (notFreeCell(steps)) {
+                         throw new OccupiedWayException("Занят путь");
+                     }
+                     if (freeWay(steps)) {
+                         rst = true;
+                         this.figures[index] = this.figures[index].copy(dest);
+                     } else {
+                         throw new OccupiedWayException("Занят путь");
+                        }
                 }
         }
         return rst;
     }
-    private boolean freeCell (Cell[] steps) {
+    private boolean freeWay (Cell[] steps) {
         boolean result = true;
-        for (int i = 1; i < steps.length; i++) {
-            for (int j = 0; j < figures.length; j++) {
-                if (steps[i].x == figures[j].position().x && steps[i].y == figures[j].position().y) {
+        for (int i = 1; i < steps.length - 1; i++) {
+            for (int j = 0; j < this.figures.length; j++) {
+                if (steps[i].x == this.figures[j].position().x && steps[i].y == this.figures[j].position().y) {
                     result = false;
+                    break;
                 }
+            }
+        }
+        return result;
+    }
+
+    private boolean notFreeCell (Cell[] steps) {
+        boolean result = false;
+        for (int i = 0; i < this.figures.length; i++) {
+            if (this.figures[i].position().x == steps[steps.length - 1].x && this.figures[i].position().y == steps[steps.length - 1].y) {
+                result = true;
+                break;
             }
         }
         return result;
