@@ -37,4 +37,14 @@ public class ConvertList2Array {
         }
         return arrayResult;
     }
+
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> array = new ArrayList<>();
+        for (int[] i: list) {
+            for (int item : i) {
+                array.add(item);
+            }
+        }
+        return array;
+    }
 }
