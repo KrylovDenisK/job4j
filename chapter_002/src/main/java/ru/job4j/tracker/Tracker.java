@@ -32,7 +32,7 @@ public class Tracker {
     public Item findById(String id) {
         Item result = null;
         for (Item item : this.items) {
-             if (item!= null && item.getId().equals(id)) {
+             if (item != null && item.getId().equals(id)) {
                 result = item;
                 break;
             }
@@ -48,9 +48,10 @@ public class Tracker {
     public boolean replace(String id, Item item) {
         boolean result = false;
         for (Item element : items) {
-            if (element!= null && element.getId().equals(id)) {
+            if (element != null && element.getId().equals(id)) {
                 item.setId(id);
-                element = item;
+                items.add(item);
+                items.remove(element);
                 result = true;
                 break;
             }
@@ -65,7 +66,7 @@ public class Tracker {
     public boolean delete(String id) {
         boolean result = false;
         for (Item element : items) {
-            if (element!= null && element.getId().equals(id)) {
+            if (element != null && element.getId().equals(id)) {
                 items.remove(element);
                 result = true;
                 break;
