@@ -1,6 +1,7 @@
 package ru.job4j.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ConvertList2Array {
@@ -24,16 +25,13 @@ public class ConvertList2Array {
                 }
             }
         }
-        int[] array = new int[list.size()];
-        i = 0;
-        for (Integer cell : list) {
-            array[i++] = cell;
-        }
         int[][] arrayResult = new int[rows][cells];
-        int pozition = 0;
+        int poz = 0;
         for (i = 0; i < rows; i++) {
-            System.arraycopy(array, pozition, arrayResult[i], 0, cells);
-            pozition = pozition + cells;
+            for (int j = 0; j < cells; j++) {
+                arrayResult[i][j] = list.get(poz);
+                poz++;
+            }
         }
         return arrayResult;
     }

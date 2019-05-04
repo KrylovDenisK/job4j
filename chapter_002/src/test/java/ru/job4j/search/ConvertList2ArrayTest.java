@@ -14,12 +14,11 @@ public class ConvertList2ArrayTest {
         ConvertList2Array list = new ConvertList2Array();
         int[][] result = list.toArray(
                 new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7)),
-                3
+                2
         );
         int[][] expect = {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 0, 0}
+                {1, 2, 3, 4},
+                {5, 6, 7, 0}
         };
         assertThat(result, is(expect));
     }
