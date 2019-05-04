@@ -47,11 +47,10 @@ public class Tracker {
      */
     public boolean replace(String id, Item item) {
         boolean result = false;
-        for (Item element : items) {
-            if (element != null && element.getId().equals(id)) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) != null && items.get(i).getId().equals(id)) {
                 item.setId(id);
-                items.add(item);
-                items.remove(element);
+                items.set(i, item);
                 result = true;
                 break;
             }
@@ -64,28 +63,20 @@ public class Tracker {
      * @return true - опперация успешна, false - нет.
      */
     public boolean delete(String id) {
-        boolean result = false;
-        for (Item element : items) {
-            if (element != null && element.getId().equals(id)) {
-                items.remove(element);
-                result = true;
-                break;
-            }
-        }
-        return result;
+        return items.removeIf(item -> item.getId().equals(id));
     }
     /**
      * @return array возвращает копию массива this.items без null элементов
      */
-    public Item[] findAll() {
-        return items.toArray(new Item[items.size()]);
+    public List<Item> findAll() {
+        return items;
     }
     /**
      * Метод отбирает заявки по key(this.name) и сохраняет в массив
      * @param key строка для поиска
      * @return array массив совпадений name
      */
-    public Item[] findByName(String key) {
+    public List<Item> findByName(String key) {
         int index = 0;
         List<Item> array = new ArrayList<>();
         for (Item i : items) {
@@ -93,7 +84,7 @@ public class Tracker {
                 array.add(i);
             }
         }
-        return array.toArray(new Item[array.size()]);
+        return array;
     }
 }
 

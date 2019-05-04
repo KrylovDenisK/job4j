@@ -9,6 +9,8 @@ import ru.job4j.tracker.inputs.ValidateInput;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -33,7 +35,7 @@ public class StartUITest {
             Tracker tracker = new Tracker();
            Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
            new StartUI(input, tracker).init();
-           assertThat(tracker.findAll()[0].getName(), is("test name"));
+           assertThat(tracker.findAll().get(0).getName(), is("test name"));
         }
 
             @Test
@@ -43,7 +45,7 @@ public class StartUITest {
                 tracker.add(item);
                 Input input = new StubInput(new String[]{"2", "test replace", "заменили заявку", item.getId(), "6"});
                 new StartUI(input, tracker).init();
-                assertThat(tracker.findAll()[0].getName(), is("test replace"));
+                assertThat(tracker.findAll().get(0).getName(), is("test replace"));
             }
 
             @Test
@@ -54,7 +56,7 @@ public class StartUITest {
                 Item threeItem = tracker.add(new Item("name3", "desc3"));
                 Input input = new StubInput(new String[]{"3", secondItem.getId(), "6"});
                 new StartUI(input, tracker).init();
-                assertThat(tracker.findAll(), is(new Item[]{firstItem, threeItem}));
+                assertThat(tracker.findAll(), is(new ArrayList<>(Arrays.asList(firstItem, threeItem))));
             }
 
            @Test
