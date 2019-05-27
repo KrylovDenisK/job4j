@@ -40,7 +40,7 @@ public class Departments {
                 int result = str2First.compareTo(str1First);
                 String str1Second = o1.substring(sepO1);
                 String str2Second = o2.substring(sepO2);
-                return result!= 0 ? result : compareString(str2Second, str1Second);
+                return result != 0 ? result : compareString(str2Second, str1Second);
             }
         });
         return orgs;
@@ -72,13 +72,13 @@ public class Departments {
      */
     private int compareString(String str1, String str2) {
         int len1 = str1.length();
-        int len2 = str2.length() ;
-        if (len1!= len2) {
+        int len2 = str2.length();
+        if (len1 != len2) {
             return -(len1 - len2);
         }
         int lim = Math.min(len1, len2);
-        char v1[] = str1.toCharArray();
-        char v2[] = str2.toCharArray();
+        char[] v1 = str1.toCharArray();
+        char[] v2 = str2.toCharArray();
         int k = 0;
         while (k < lim) {
             char c1 = v1[k];

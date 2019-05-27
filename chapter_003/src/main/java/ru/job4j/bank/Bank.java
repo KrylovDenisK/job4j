@@ -45,7 +45,7 @@ public class Bank {
         boolean result = false;
         Account srcAccount = searchAccountToRequisites(srcPassport, srcRequisite);
         Account dstAccount = searchAccountToRequisites(dstPassport, dstRequisite);
-        if (srcAccount!= null && dstAccount!= null) {
+        if (srcAccount != null && dstAccount != null) {
            result = dstAccount.transferValue(srcAccount, amount);
         }
         return result;
