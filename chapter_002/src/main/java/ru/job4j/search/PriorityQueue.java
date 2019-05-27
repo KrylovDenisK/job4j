@@ -11,21 +11,22 @@ public class PriorityQueue {
      * @param task задача
      */
     public void put(Task task) {
-        if (tasks.isEmpty()) {
-            tasks.add(task);
-        } else {
-            for (Task element : tasks) {
-                if (task.getPriority() < element.getPriority()) {
-                    tasks.add(tasks.indexOf(element), task);
-                    break;
-                }
+        int pozition = tasks.size();
+        for (int i = 0; i < tasks.size(); i++) {
+            if (task.getPriority() < tasks.get(i).getPriority()) {
+                pozition = i;
+                break;
             }
         }
-
+        tasks.add(pozition, task);
     }
 
     public Task take() {
         return this.tasks.poll();
+    }
+
+    public Task takeLast() {
+        return tasks.getLast();
     }
 }
 
