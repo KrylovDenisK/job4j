@@ -2,11 +2,15 @@ package ru.job4j.tracker.inputs;
 
 import ru.job4j.tracker.exception.MenuOutException;
 
+import java.util.function.Consumer;
+
 public class ValidateInput implements Input {
     private final Input input;
+    private final Consumer<String> output;
 
-    public ValidateInput(final Input input) {
+    public ValidateInput(final Input input, Consumer<String> output) {
         this.input = input;
+        this.output = output;
     }
 
     @Override
@@ -22,9 +26,9 @@ public class ValidateInput implements Input {
                 value = this.input.ask(question, range);
                 flag = false;
             } catch (NumberFormatException nfe) {
-                System.out.println("Необходимо ввести корректное значение");
+                output.accept("Необходимо ввести корректное значение");
             } catch (MenuOutException moe) {
-                 System.out.println("Необходимо выбрать значение из диапазона меню");
+                 output.accept("Необходимо выбрать значение из диапазона меню");
             }
         } while (flag);
         return value;

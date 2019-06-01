@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -18,23 +19,21 @@ import static org.junit.Assert.assertThat;
 
 
 public class StartUITest {
-    private final PrintStream stdout = new PrintStream(System.out);
-    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-    @Before
-    public void loadOutput() {
-        System.setOut(new PrintStream(out));
-    }
-    @After
-    public void backOutput() {
-        System.setOut(stdout);
-    }
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private final Consumer<String> output = new Consumer<String>() {
+        private final PrintStream stdout = new PrintStream(out);
+        @Override
+        public void accept(String s) {
+            stdout.println(s);
+        }
+    };
 
        @Test
         public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
             Tracker tracker = new Tracker();
            Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
-           new StartUI(input, tracker).init();
+           new StartUI(input, tracker, output).init();
            assertThat(tracker.findAll().get(0).getName(), is("test name"));
         }
 
@@ -44,7 +43,7 @@ public class StartUITest {
                 Item item = new Item("test name", "desc");
                 tracker.add(item);
                 Input input = new StubInput(new String[]{"2", "test replace", "заменили заявку", item.getId(), "6"});
-                new StartUI(input, tracker).init();
+                new StartUI(input, tracker, output).init();
                 assertThat(tracker.findAll().get(0).getName(), is("test replace"));
             }
 
@@ -55,7 +54,7 @@ public class StartUITest {
                 Item secondItem = tracker.add(new Item("name2", "desc2"));
                 Item threeItem = tracker.add(new Item("name3", "desc3"));
                 Input input = new StubInput(new String[]{"3", secondItem.getId(), "6"});
-                new StartUI(input, tracker).init();
+                new StartUI(input, tracker, output).init();
                 assertThat(tracker.findAll(), is(new ArrayList<>(Arrays.asList(firstItem, threeItem))));
             }
 
@@ -66,7 +65,6 @@ public class StartUITest {
                 Item secondItem = tracker.add(new Item("name2", "desc2"));
                 Item threeItem = tracker.add(new Item("name3", "desc3"));
                 Input input = new StubInput(new String[]{"1", "6"});
-                System.setOut(new PrintStream(out));
                 StringBuilder expect = new StringBuilder()
                         .append("0. Add items\r\n")
                         .append("1. Show All items\r\n")
@@ -86,10 +84,9 @@ public class StartUITest {
                         .append("4. Find item by Id\r\n")
                         .append("5. Find Items By Name\r\n")
                         .append("6. Exit Program\r\n")
-                        .append("завершение работы\r\n");
-                new StartUI(input, tracker).init();
+                        .append("Завершение работы\r\n");
+                new StartUI(input, tracker, output).init();
                 assertThat(out.toString(), is(expect.toString()));
-                System.setOut(stdout);
             }
             @Test
             public void whenFindItemByIdThenShowThisItem() {
@@ -98,7 +95,6 @@ public class StartUITest {
                 Item secondItem = tracker.add(new Item("name2", "desc2"));
                 Item threeItem = tracker.add(new Item("name3", "desc3"));
                 Input input = new StubInput(new String[]{"4", secondItem.getId(), "6"});
-                System.setOut(new PrintStream(out));
                 StringBuilder expect = new StringBuilder()
                         .append("0. Add items\r\n")
                         .append("1. Show All items\r\n")
@@ -116,18 +112,15 @@ public class StartUITest {
                         .append("4. Find item by Id\r\n")
                         .append("5. Find Items By Name\r\n")
                         .append("6. Exit Program\r\n")
-                        .append("завершение работы\r\n");
-                new StartUI(input, tracker).init();
+                        .append("Завершение работы\r\n");
+                new StartUI(input, tracker, output).init();
                 assertThat(out.toString(), is(expect.toString()));
-                System.setOut(stdout);
-
             }
 
     @Test
     public void whenInvalidInput() {
         ValidateInput input = new ValidateInput(
-                new StubInput(new String[] {"invalid", "1"})
-        );
+                new StubInput(new String[] {"invalid", "1"}), output);
         input.ask("Enter", new int[] {1});
         assertThat(
                 this.out.toString(),

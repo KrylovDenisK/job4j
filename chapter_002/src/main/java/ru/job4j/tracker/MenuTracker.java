@@ -4,16 +4,19 @@ import ru.job4j.tracker.actions.*;
 import ru.job4j.tracker.inputs.Input;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class MenuTracker {
     private Input input;
     private Tracker tracker;
+    private final Consumer<String> output;
     private ArrayList<UserAction> actions = new ArrayList<>();
 
 
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, Tracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
+        this.output = output;
     }
     /**
      * Метод для получения массива меню.
@@ -28,18 +31,17 @@ public class MenuTracker {
      * Метод заполняет массив.
      */
     public void fillActions(StartUI startUI) {
-        this.actions.add(new AddItem(0, "Add items"));
-        this.actions.add(new ShowItems(1, "Show All items"));
-        this.actions.add(new EditItem(2, "Edit item"));
-        this.actions.add(new DeleteItem(3, "Delete item"));
-        this.actions.add(new FindItemById(4, "Find item by Id"));
-        this.actions.add(new FindItemsByName(5, "Find Items By Name"));
-        this.actions.add(new ExitProgram(6, "Exit Program", startUI));
+        this.actions.add(new AddItem(0, "Add items", output));
+        this.actions.add(new ShowItems(1, "Show All items", output));
+        this.actions.add(new EditItem(2, "Edit item", output));
+        this.actions.add(new DeleteItem(3, "Delete item", output));
+        this.actions.add(new FindItemById(4, "Find item by Id", output));
+        this.actions.add(new FindItemsByName(5, "Find Items By Name", output));
+        this.actions.add(new ExitProgram(6, "Exit Program", output, startUI));
     }
 
     /**
      * Метод в зависимости от указанного ключа, выполняет соотвествующие действие.
-     *
      * @param key ключ операции
      */
     public void select(int key) {
@@ -51,7 +53,8 @@ public class MenuTracker {
     public void show() {
         for (UserAction action : this.actions) {
             if (action != null) {
-                System.out.println(action.info());
+                output.accept(action.info());
+                //System.out.println(action.info());
             }
         }
     }

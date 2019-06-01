@@ -3,19 +3,21 @@ package ru.job4j.tracker.actions;
 import ru.job4j.tracker.Tracker;
 import ru.job4j.tracker.inputs.Input;
 
+import java.util.function.Consumer;
+
 public class DeleteItem extends BaseAction {
 
-    public DeleteItem(int key, String name) {
-        super(key, name);
+    public DeleteItem(int key, String name, Consumer<String> output) {
+        super(key, name, output);
     }
     @Override
     public void execute(Input input, Tracker tracker) {
-        System.out.println("--------------Удаление заявки-------------");
+        super.getOutput().accept("--------------Удаление заявки-------------");
         String id = input.ask("Введите id заявки:");
         if (tracker.delete(id)) {
-            System.out.println("Операция выполнена!");
+           getOutput().accept("Операция выполнена!");
         } else {
-            System.out.println("Операция не выполнена!");
+            getOutput().accept("Операция не выполнена!");
         }
     }
 }

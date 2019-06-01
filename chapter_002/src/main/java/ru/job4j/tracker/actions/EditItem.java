@@ -4,21 +4,23 @@ import ru.job4j.tracker.Item;
 import ru.job4j.tracker.Tracker;
 import ru.job4j.tracker.inputs.Input;
 
+import java.util.function.Consumer;
+
 public class EditItem extends BaseAction {
-    public EditItem(int key, String name) {
-        super(key, name);
+    public EditItem(int key, String name, Consumer<String> output) {
+        super(key, name, output);
     }
     @Override
     public void execute(Input input, Tracker tracker) {
-        System.out.println("----------------Замена заявки-------------");
+        getOutput().accept("----------------Замена заявки-------------");
         String name = input.ask("Введите имя новой заявки :");
         String desc = input.ask("Введите описание новой заявки :");
         String id = input.ask("Введите id изменяемой заявки");
         Item item = new Item(name, desc);
         if (tracker.replace(id, item)) {
-            System.out.println("Операция выполнена!");
+            getOutput().accept("Операция выполнена!");
         } else {
-            System.out.println("Операция не выполнена!");
+            getOutput().accept("Операция не выполнена!");
         }
     }
 }
