@@ -1,6 +1,8 @@
 package ru.job4j.search;
 
+import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class PriorityQueue {
     private LinkedList<Task> tasks = new LinkedList<>();

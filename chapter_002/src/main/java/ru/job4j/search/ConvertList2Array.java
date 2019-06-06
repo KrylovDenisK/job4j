@@ -3,6 +3,8 @@ package ru.job4j.search;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class ConvertList2Array {
     public int[][] toArray(List<Integer> list, int rows) {
@@ -30,11 +32,7 @@ public class ConvertList2Array {
 
     public List<Integer> convert(List<int[]> list) {
         List<Integer> array = new ArrayList<>();
-        for (int[] i: list) {
-            for (int item : i) {
-                array.add(item);
-            }
-        }
+        list.stream().flatMapToInt(Arrays::stream).forEach(array::add);
         return array;
     }
 }
