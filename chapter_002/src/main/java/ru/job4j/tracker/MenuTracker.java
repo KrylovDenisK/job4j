@@ -4,6 +4,7 @@ import ru.job4j.tracker.actions.*;
 import ru.job4j.tracker.inputs.Input;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class MenuTracker {
@@ -51,11 +52,6 @@ public class MenuTracker {
      * Метод выводит на экран меню.
      */
     public void show() {
-        for (UserAction action : this.actions) {
-            if (action != null) {
-                output.accept(action.info());
-                //System.out.println(action.info());
-            }
-        }
+        actions.forEach(action -> output.accept(action.info()));
     }
 }

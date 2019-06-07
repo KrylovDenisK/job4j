@@ -1,9 +1,7 @@
 package ru.job4j.tracker;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Tracker {
     private final List<Item> items = new ArrayList<>();
@@ -30,14 +28,7 @@ public class Tracker {
      * @return найденная заявка
      */
     public Item findById(String id) {
-        Item result = null;
-        for (Item item : this.items) {
-             if (item != null && item.getId().equals(id)) {
-                result = item;
-                break;
-            }
-        }
-        return result;
+        return items.stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
     }
     /**
      * Метод ищет заявку по id и производит ее замену.
@@ -47,13 +38,11 @@ public class Tracker {
      */
     public boolean replace(String id, Item item) {
         boolean result = false;
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i) != null && items.get(i).getId().equals(id)) {
-                item.setId(id);
-                items.set(i, item);
-                result = true;
-                break;
-            }
+        Item oldItem = items.stream().filter(i -> i.getId().equals(id)).findFirst().orElse(null);
+        if (!Objects.isNull(oldItem)) {
+            item.setId(id);
+            items.set(items.indexOf(oldItem), item);
+            result = true;
         }
         return result;
     }
@@ -77,14 +66,7 @@ public class Tracker {
      * @return array массив совпадений name
      */
     public List<Item> findByName(String key) {
-        int index = 0;
-        List<Item> array = new ArrayList<>();
-        for (Item i : items) {
-            if (i != null && i.getName().equals(key)) {
-                array.add(i);
-            }
-        }
-        return array;
+        return items.stream().filter(item -> !Objects.isNull(item) && item.getName().equals(key)).collect(Collectors.toList());
     }
 }
 
