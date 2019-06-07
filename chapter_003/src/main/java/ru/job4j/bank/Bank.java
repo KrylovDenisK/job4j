@@ -1,6 +1,7 @@
 package ru.job4j.bank;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Bank {
     private final Map<User, List<Account>> users = new HashMap<>();
@@ -14,29 +15,17 @@ public class Bank {
     }
 
     public void addAccountToUser(String passport, Account account) {
-        for (User entry : users.keySet()) {
-            if (entry.getPassport().equals(passport)) {
-                users.get(entry).add(account);
-                break;
-            }
-        }
+        users.keySet().stream().filter(x -> x.getPassport().equals(passport)).findFirst().ifPresent(user -> users.get(user).add(account));
     }
 
     public void deleteAccountFromUser(String passport, Account account) {
-        for (User entry : users.keySet()) {
-            if (entry.getPassport().equals(passport)) {
-                users.get(entry).remove(account);
-                break;
-            }
-        }
+        users.keySet().stream().filter(x -> x.getPassport().equals(passport)).findFirst().ifPresent(user -> users.get(user).remove(account));
     }
     public List<Account> getUserAccounts(String passport) {
         List<Account> accounts = new ArrayList<>();
-        for (User entry : users.keySet()) {
-            if (entry.getPassport().equals(passport)) {
-                accounts = users.get(entry);
-                break;
-            }
+        User user = users.keySet().stream().filter(x -> x.getPassport().equals(passport)).findFirst().orElse(null);
+        if (!Objects.isNull(user)) {
+            accounts = users.get(user);
         }
         return accounts;
     }
@@ -45,29 +34,17 @@ public class Bank {
         boolean result = false;
         Account srcAccount = searchAccountToRequisites(srcPassport, srcRequisite);
         Account dstAccount = searchAccountToRequisites(dstPassport, dstRequisite);
-        if (srcAccount != null && dstAccount != null) {
+        if (!Objects.isNull(srcAccount) && !Objects.isNull(dstAccount)) {
            result = dstAccount.transferValue(srcAccount, amount);
         }
         return result;
     }
 
     public User searchUserByPassport(String passport) {
-        User result = null;
-        for (User user : users.keySet()) {
-            if (user.getPassport().equals(passport)) {
-                result = user;
-            }
-        }
-        return result;
+        return users.keySet().stream().filter(user -> user.getPassport().equals(passport)).findFirst().orElse(null);
     }
     public Account searchAccountToRequisites(String passport, String requisites) {
-        Account result = null;
         List<Account> accounts = getUserAccounts(passport);
-        for (Account account : accounts) {
-            if (account.getRequisites().equals(requisites)) {
-                result = account;
-            }
-        }
-        return result;
+        return accounts.stream().filter(account -> account.getRequisites().equals(requisites)).findFirst().orElse(null);
     }
 }
