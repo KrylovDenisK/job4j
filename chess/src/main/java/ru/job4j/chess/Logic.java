@@ -94,13 +94,6 @@ public class Logic {
     *   Поиск фигуры на доске по адресу ячейки
     */
     private int findBy(Cell cell) {
-       /* for (int index = 0; index != this.figures.length; index++) {
-            if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
-                rst = index;
-                break;
-            }
-        }
-        */
         return IntStream.range(0, figures.length).filter(i -> figures[i].position().equals(cell)).findFirst().orElse(-1);
     }
 }
