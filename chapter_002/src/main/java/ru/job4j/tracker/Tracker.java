@@ -40,7 +40,7 @@ public class Tracker {
     public boolean replace(String id, Item item) {
         boolean result = false;
         int index = IntStream.range(0, items.size()).filter(i -> items.get(i).getId().equals(id)).findFirst().orElse(-1);
-        if (index > 0) {
+        if (index >= 0) {
             item.setId(id);
             items.set(index, item);
             result = true;
