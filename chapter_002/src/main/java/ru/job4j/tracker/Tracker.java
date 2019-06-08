@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Tracker {
     private final List<Item> items = new ArrayList<>();
@@ -38,10 +39,10 @@ public class Tracker {
      */
     public boolean replace(String id, Item item) {
         boolean result = false;
-        Item oldItem = items.stream().filter(i -> i.getId().equals(id)).findFirst().orElse(null);
-        if (!Objects.isNull(oldItem)) {
+        int index = IntStream.range(0, items.size()).filter(i -> items.get(i).getId().equals(id)).findFirst().orElse(-1);
+        if (index > 0) {
             item.setId(id);
-            items.set(items.indexOf(oldItem), item);
+            items.set(index, item);
             result = true;
         }
         return result;
