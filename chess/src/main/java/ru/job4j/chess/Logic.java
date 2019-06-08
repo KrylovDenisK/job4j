@@ -7,7 +7,9 @@ import ru.job4j.chess.exeptions.OccupiedWayException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * //TODO add comments.
@@ -92,13 +94,13 @@ public class Logic {
     *   Поиск фигуры на доске по адресу ячейки
     */
     private int findBy(Cell cell) {
-        int rst = -1;
-        for (int index = 0; index != this.figures.length; index++) {
+       /* for (int index = 0; index != this.figures.length; index++) {
             if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
                 rst = index;
                 break;
             }
         }
-        return rst;
+        */
+        return IntStream.range(0, figures.length).filter(i -> figures[i].position().equals(cell)).findFirst().orElse(-1);
     }
 }
