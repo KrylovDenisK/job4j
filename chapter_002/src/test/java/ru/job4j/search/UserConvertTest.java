@@ -15,13 +15,10 @@ public class UserConvertTest {
     public void whenHigherPriority() {
         UserConvert userConvert = new UserConvert();
         User userExpect = new User(1, "Cody", "Orlando");
-                List<User> users = new ArrayList<>(
-                Arrays.asList(
+                List<User> users = List.of(
                     new User(0, "Alex", "Moscow"),
                     userExpect
-                )
         );
-        HashMap<Integer, User> result = userConvert.process(users);
-        assertThat(result.get(1), is(userExpect));
+        assertThat(userConvert.process(users).get(1), is(userExpect));
     }
 }

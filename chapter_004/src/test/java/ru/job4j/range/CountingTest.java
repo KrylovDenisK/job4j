@@ -1,8 +1,6 @@
 package ru.job4j.range;
 
 import org.junit.Test;
-import sun.text.resources.no.CollationData_no;
-
 import java.util.Arrays;
 import java.util.List;
 import static org.hamcrest.core.Is.is;
