@@ -1,6 +1,6 @@
 package ru.job4j.chess;
 
-import javafx.scene.control.Alert;
+
 import ru.job4j.chess.exeptions.FigureNotFoundException;
 import ru.job4j.chess.exeptions.ImpossibleMoveException;
 import ru.job4j.chess.exeptions.OccupiedWayException;
