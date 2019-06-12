@@ -17,12 +17,12 @@ public class TwoDimanshional implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        return Arrays.stream(array).flatMapToInt(Arrays::stream).count() > index;
+        return countArray() > index;
     }
 
     @Override
     public Integer next() {
-        if (Arrays.stream(array).flatMapToInt(Arrays::stream).count() <= index) {
+        if (countArray() <= index) {
             throw new NoSuchElementException();
         }
         int result;
@@ -34,6 +34,10 @@ public class TwoDimanshional implements Iterator<Integer> {
         }
         index++;
         return result;
+    }
+
+    private long countArray() {
+        return Arrays.stream(array).flatMapToInt(Arrays::stream).count();
     }
 }
 
