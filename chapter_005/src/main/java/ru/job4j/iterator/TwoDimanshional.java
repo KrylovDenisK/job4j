@@ -17,12 +17,12 @@ public class TwoDimanshional implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        return countArray() > index;
+        return array[array.length - 1].length > index;
     }
 
     @Override
     public Integer next() {
-        if (countArray() <= index) {
+        if (array[array.length - 1].length <= index) {
             throw new NoSuchElementException();
         }
         int result;
