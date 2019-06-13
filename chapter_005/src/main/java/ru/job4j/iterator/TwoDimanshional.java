@@ -20,7 +20,7 @@ public class TwoDimanshional implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        if (array.length == 0 || array[row].length <= collomn) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
         int result;
