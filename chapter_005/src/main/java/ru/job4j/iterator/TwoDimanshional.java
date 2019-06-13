@@ -1,6 +1,5 @@
 package ru.job4j.iterator;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -21,9 +20,7 @@ public class TwoDimanshional implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        try {
-            boolean exeption =  array[row].length <= collomn;
-        } catch (ArrayIndexOutOfBoundsException obe) {
+        if (array.length == 0 || array[row].length <= collomn) {
             throw new NoSuchElementException();
         }
         int result;
