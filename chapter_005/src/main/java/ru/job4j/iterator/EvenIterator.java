@@ -16,23 +16,17 @@ public class EvenIterator implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        return IntStream.range(index, array.length).anyMatch(i -> array[i] % 2 == 0);
+        if (index > -1) {
+            index = IntStream.range(index, array.length).filter(i -> array[i] % 2 == 0).findFirst().orElse(-1);
+        }
+        return index > -1;
     }
 
     @Override
     public Integer next() {
-        if (array.length <= index) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
-
-        if (index == 0) {
-            index = searchIndexEventItem(index);
-        }
-        int result = array[index++];
-        index = searchIndexEventItem(index);
-        return result;
-    }
-    private int searchIndexEventItem(int poz) {
-        return IntStream.range(poz, array.length).filter(i -> array[i] % 2 == 0).findFirst().orElse(array.length);
+        return array[index++];
     }
 }
