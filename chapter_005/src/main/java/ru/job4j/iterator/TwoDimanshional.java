@@ -9,7 +9,6 @@ public class TwoDimanshional implements Iterator<Integer> {
     private final int[][] array;
     private int row = 0;
     private int collomn = 0;
-    private int index = 0;
 
     public TwoDimanshional(final int[][] array) {
         this.array = array;
@@ -17,12 +16,14 @@ public class TwoDimanshional implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        return array[array.length - 1].length > index;
+        return array.length > row && array[row].length > collomn;
     }
 
     @Override
     public Integer next() {
-        if (array[array.length - 1].length <= index) {
+        try {
+            boolean exeption =  array[row].length <= collomn;
+        } catch (ArrayIndexOutOfBoundsException obe) {
             throw new NoSuchElementException();
         }
         int result;
@@ -32,12 +33,7 @@ public class TwoDimanshional implements Iterator<Integer> {
             result = array[row++][collomn];
             collomn = 0;
         }
-        index++;
         return result;
-    }
-
-    private long countArray() {
-        return Arrays.stream(array).flatMapToInt(Arrays::stream).count();
     }
 }
 
