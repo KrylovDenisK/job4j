@@ -15,7 +15,7 @@ public class SimpleArray<T> implements Iterable<T> {
             private int poz = 0;
             @Override
             public boolean hasNext() {
-                return poz > array.length;
+                return poz < index;
             }
 
             @Override
@@ -25,8 +25,8 @@ public class SimpleArray<T> implements Iterable<T> {
         };
     }
 
-    public SimpleArray(T[] array) {
-        this.array = array;
+    public SimpleArray(int size) {
+        array = (T[]) new Object[size];
     }
 
     /**

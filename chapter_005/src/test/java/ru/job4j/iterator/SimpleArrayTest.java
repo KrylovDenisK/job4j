@@ -9,7 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class SimpleArrayTest {
-    private SimpleArray<Integer> simpleArray = new SimpleArray<>(new Integer[10]);
+    private SimpleArray<Integer> simpleArray = new SimpleArray<>(10);
     private Iterator it = simpleArray.iterator();
 
     @Before
