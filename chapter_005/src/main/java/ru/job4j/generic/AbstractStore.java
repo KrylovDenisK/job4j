@@ -1,7 +1,5 @@
 package ru.job4j.generic;
 
-import ru.job4j.iterator.SimpleArray;
-
 import java.util.stream.IntStream;
 
 public abstract class AbstractStore<T extends Base> implements Store<T> {
