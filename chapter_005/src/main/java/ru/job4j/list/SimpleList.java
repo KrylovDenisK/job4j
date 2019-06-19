@@ -42,9 +42,7 @@ public class SimpleList<T> implements Iterable<T> {
     public void add(T value) {
         conteiner[index++] = value;
         if (index == size) {
-            T[] newConteiner = (T[]) new Object[(size * 3) / 2 + 1];
-            System.arraycopy(conteiner, 0, newConteiner, 0, size);
-            conteiner = newConteiner;
+            expansionContainer();
             size = conteiner.length;
             modCount++;
         }
@@ -52,6 +50,12 @@ public class SimpleList<T> implements Iterable<T> {
 
     public T get(int index) {
         return conteiner[index];
+    }
+
+    private void expansionContainer() {
+        T[] newConteiner = (T[]) new Object[(size * 3) / 2 + 1];
+        System.arraycopy(conteiner, 0, newConteiner, 0, size);
+        conteiner = newConteiner;
     }
 
 }
