@@ -8,6 +8,7 @@ public class SimpleLinkedList<T> implements Iterable<T> {
     private int size;
     private int modCount;
 
+
     public static class Node<T> {
         private T data;
         private Node<T> next;
@@ -33,6 +34,13 @@ public class SimpleLinkedList<T> implements Iterable<T> {
             result = result.next;
         }
         return result.data;
+    }
+
+    public T delete() {
+        T result = first.data;
+        first = first.next;
+        size--;
+        return result;
     }
 
     @Override
