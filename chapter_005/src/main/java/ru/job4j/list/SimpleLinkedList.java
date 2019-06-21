@@ -8,6 +8,9 @@ public class SimpleLinkedList<T> implements Iterable<T> {
     private int size;
     private int modCount;
 
+    public int getSize() {
+        return size;
+    }
 
     public static class Node<T> {
         private T data;

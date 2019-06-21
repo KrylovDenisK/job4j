@@ -14,4 +14,8 @@ public class SimpleStack<T> {
     public void push(T value) {
         simpleLinkedList.add(value);
     }
+
+    public boolean isEmpty() {
+        return simpleLinkedList.getSize() == 0;
+    }
 }
