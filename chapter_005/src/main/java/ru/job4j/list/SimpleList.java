@@ -60,6 +60,10 @@ public class SimpleList<T> implements Iterable<T> {
     }
 
     public boolean hasValue(T value) {
-        return IntStream.range(0, size).anyMatch(x -> conteiner[x] == value);
+        boolean result = false;
+        if (index != 0) {
+            result = IntStream.range(0, index).anyMatch(x -> conteiner[x].equals(value));
+        }
+        return result;
     }
 }

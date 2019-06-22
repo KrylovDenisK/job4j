@@ -23,4 +23,16 @@ public class SimpleSetTest {
         assertThat(result, is(expected));
     }
 
+
+    @Test
+    public void add2() {
+        SimpleSet<String> set1 = new SimpleSet<>();
+        set1.add(new String("123"));
+        set1.add(new String("123"));
+        set1.add(new String("123"));
+        List<String> strings = new ArrayList<>();
+        set1.forEach(strings::add);
+        assertThat(strings.get(0), is("123"));
+    }
+
 }
