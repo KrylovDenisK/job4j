@@ -13,15 +13,14 @@ public class Node<T> {
     public boolean hasCycle(Node<T> first) {
         Node<T> nodeI = first;
         Node<T> nodeJ = first;
-        do {
-            nodeI = nodeI.next;
-            for (int j = 0; j < 2; j++) {
-                if (Objects.isNull(nodeJ.next)) {
-                    return false;
-                }
-                nodeJ = nodeJ.next;
+
+        while (!Objects.isNull(nodeJ)) {
+            if (nodeJ.next == nodeI || nodeJ.next.next == nodeI) {
+                return true;
             }
-        } while (nodeI != nodeJ);
-        return true;
+            nodeI = nodeI.next;
+            nodeJ = nodeJ.next.next;
+        }
+        return false;
     }
 }
