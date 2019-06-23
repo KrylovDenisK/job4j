@@ -2,6 +2,7 @@ package ru.job4j.list;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class SimpleList<T> implements Iterable<T> {
@@ -62,8 +63,9 @@ public class SimpleList<T> implements Iterable<T> {
     public boolean hasValue(T value) {
         boolean result = false;
         if (index != 0) {
-            result = IntStream.range(0, index).anyMatch(x -> conteiner[x].equals(value));
-        }
+                result = IntStream.range(0, index)
+                        .anyMatch(x -> Objects.nonNull(conteiner[x]) ? conteiner[x].equals(value) : conteiner[x] == value);
+            }
         return result;
     }
 }

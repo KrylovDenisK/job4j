@@ -34,5 +34,17 @@ public class SimpleSetTest {
         set1.forEach(strings::add);
         assertThat(strings.get(0), is("123"));
     }
-
+    @Test
+    public void add3() {
+        SimpleSet<Integer> set = new SimpleSet<>();
+        set.add(1);
+        set.add(null);
+        set.add(1);
+        set.add(5);
+        set.add(null);
+        List<Integer> result = new ArrayList<>();
+        set.forEach(result::add);
+        List<Integer> expect = Arrays.asList(1, null, 5);
+        assertThat(result, is(expect));
+    }
 }
