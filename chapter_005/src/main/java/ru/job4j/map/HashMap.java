@@ -147,14 +147,11 @@ public class HashMap<K, V> implements Iterable {
      * Расширение массива Nodes
      */
     private void nodesExpansion() {
-        int newHash;
         Node<K, V>[] newNodes = new Node[nodes.length * 3];
         for (int i = 0; i < nodes.length; i++) {
             if (Objects.nonNull(nodes[i])) {
                 Node<K, V> node = nodes[i];
-                newHash = hash(hashCode(node.key));
-                node.setHash(newHash);
-                newNodes[newHash % newNodes.length] = node;
+                newNodes[node.getHash() % newNodes.length] = node;
             }
         }
         nodes = newNodes;
