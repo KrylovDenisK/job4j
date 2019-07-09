@@ -9,6 +9,7 @@ public class HashMap<K, V> implements Iterable {
 
     private Node<K, V>[] nodes = new Node[16];
     private int modCount = 0;
+    private int count = 0;
 
     @Override
     public Iterator<Node<K, V>> iterator() {
@@ -63,6 +64,10 @@ public class HashMap<K, V> implements Iterable {
         public V getValue() {
             return value;
         }
+
+        public void setValue(V value) {
+            this.value = value;
+        }
     }
 
     /**
@@ -73,26 +78,25 @@ public class HashMap<K, V> implements Iterable {
      */
     public boolean insert(K key, V value) {
         boolean result = false;
-        double numberFilling = filling();
+        double numberFilling = count / nodes.length;
         if (numberFilling >= 0.7) {
             nodesExpansion();
         }
-        if (Objects.nonNull(key)) {
-            int hash = hash(key.hashCode());
-            Node<K, V> node = new Node<>(key, value, hash);
-            int index = calculateIndex(hash, nodes.length);
-            if (Objects.isNull(nodes[index])) {
-                nodes[index] = node;
+        int hashCode = hashCode(key);
+        int hash = hash(hashCode);
+        Node<K, V> node = new Node<>(key, value, hash);
+        int index = calculateIndex(hash);
+        if (Objects.nonNull(nodes[index])) {
+            if (Objects.equals(nodes[index].getKey(), key)) {
+                nodes[index].setValue(value);
                 modCount++;
                 result = true;
             }
         } else {
-            Node<K, V> node = new Node<>(null, value, 0);
-            if (Objects.nonNull(nodes[0])) {
-                nodes[0] = node;
-                modCount++;
-                result = true;
-            }
+            nodes[index] = node;
+            modCount++;
+            count++;
+            result = true;
         }
         return result;
     }
@@ -103,13 +107,12 @@ public class HashMap<K, V> implements Iterable {
      * @return значение
      */
     public V get(K key) {
-        V result;
-        if (Objects.nonNull(key)) {
-            int index = calculateIndex(hash(key.hashCode()), nodes.length);
-            result = Objects.nonNull(nodes[index]) && nodes[index].getKey().hashCode() == key.hashCode()
-                    && key.equals(nodes[index].getKey()) ? nodes[index].getValue() : null;
-        } else {
-            result = nodes[0].getValue();
+        V result = null;
+        int hashCode = hashCode(key);
+        int index = calculateIndex(hash(hashCode));
+        if (Objects.nonNull(nodes[index]) && hashCode(nodes[index].getKey()) == hashCode(key)
+                    && Objects.equals(nodes[index].getKey(), key)) {
+            result = nodes[index].getValue();
         }
         return result;
     }
@@ -119,29 +122,27 @@ public class HashMap<K, V> implements Iterable {
      */
     public boolean delete(K key) {
         boolean result = false;
-        int index = calculateIndex(hash(key.hashCode()), nodes.length);
-        if (Objects.nonNull(nodes[index]) && nodes[index].getKey().hashCode() == key.hashCode()
-                && key.equals(nodes[index].getKey())) {
+        int hashCode = hashCode(key);
+        int index = calculateIndex(hash(hashCode));
+        if (Objects.nonNull(nodes[index]) && hashCode(nodes[index].getKey()) == hashCode(key)
+                && Objects.equals(nodes[index].getKey(), key)) {
             nodes[index] = null;
             modCount++;
+            count--;
             result = true;
         }
         return result;
     }
 
+    private int hashCode(K key) {
+        return Objects.nonNull(key) ? key.hashCode() : 0;
+    }
     private int hash(int hashCode) {
         return hashCode ^ (hashCode >>> 16);
     }
-    private int calculateIndex(int hash, int lenght) {
+    private int calculateIndex(int hash) {
           return hash % nodes.length;
     }
-    /**
-     *  Рассчитать коэффициент заполнение
-     */
-    private double filling() {
-        return IntStream.range(0, nodes.length).filter(x -> Objects.nonNull(nodes[x])).count() / nodes.length;
-    }
-
     /**
      * Расширение массива Nodes
      */
@@ -151,9 +152,9 @@ public class HashMap<K, V> implements Iterable {
         for (int i = 0; i < nodes.length; i++) {
             if (Objects.nonNull(nodes[i])) {
                 Node<K, V> node = nodes[i];
-                newHash = hash(node.key.hashCode());
+                newHash = hash(hashCode(node.key));
                 node.setHash(newHash);
-                newNodes[calculateIndex(newHash, newNodes.length)] = node;
+                newNodes[newHash % newNodes.length] = node;
             }
         }
         nodes = newNodes;

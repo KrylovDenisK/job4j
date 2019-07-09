@@ -18,6 +18,7 @@ public class HashMapTest {
     @Before
     public void setUp() {
         int i = 0;
+        map.insert(null, 30);
         while (i < 5) {
             map.insert(new User("name " + i), i);
             i++;
@@ -25,9 +26,8 @@ public class HashMapTest {
     }
     @Test
     public void whenGetThen() {
-        assertThat(map.get(new User("name 0")), is(0));
+        assertThat(map.get(null), is(30));
         assertThat(map.get(new User("name 1")), is(1));
-        assertThat(map.get(new User("name 2")), is(2));
         assertThat(map.get(new User("name 3")), is(3));
         assertThat(map.get(new User("name 4")), is(4));
         assertThat(map.get(new User("name 20")), is(nullValue()));
