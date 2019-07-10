@@ -110,9 +110,10 @@ public class HashMap<K, V> implements Iterable {
         V result = null;
         int hashCode = hashCode(key);
         int index = calculateIndex(hash(hashCode));
-        if (Objects.nonNull(nodes[index]) && hashCode(nodes[index].getKey()) == hashCode(key)
-                    && Objects.equals(nodes[index].getKey(), key)) {
-            result = nodes[index].getValue();
+        Node<K, V> node = nodes[index];
+        if (Objects.nonNull(node) && hashCode(node.getKey()) == hashCode
+                    && Objects.equals(node.getKey(), key)) {
+            result = node.getValue();
         }
         return result;
     }
@@ -124,8 +125,9 @@ public class HashMap<K, V> implements Iterable {
         boolean result = false;
         int hashCode = hashCode(key);
         int index = calculateIndex(hash(hashCode));
-        if (Objects.nonNull(nodes[index]) && hashCode(nodes[index].getKey()) == hashCode(key)
-                && Objects.equals(nodes[index].getKey(), key)) {
+        Node<K, V> node = nodes[index];
+        if (Objects.nonNull(node) && hashCode(node.getKey()) == hashCode
+                && Objects.equals(node.getKey(), key)) {
             nodes[index] = null;
             modCount++;
             count--;
@@ -147,14 +149,17 @@ public class HashMap<K, V> implements Iterable {
      * Расширение массива Nodes
      */
     private void nodesExpansion() {
-        Node<K, V>[] newNodes = new Node[nodes.length * 3];
-        for (int i = 0; i < nodes.length; i++) {
-            if (Objects.nonNull(nodes[i])) {
-                Node<K, V> node = nodes[i];
-                newNodes[node.getHash() % newNodes.length] = node;
+        double numberFilling = (double) count / nodes.length;
+        if (numberFilling >= 0.7) {
+            Node<K, V>[] oldNodes = nodes;
+            nodes = new Node[nodes.length * 3];
+            for (int i = 0; i < oldNodes.length; i++) {
+                if (Objects.nonNull(oldNodes[i])) {
+                    Node<K, V> oldNode = oldNodes[i];
+                    insert(oldNode.key, oldNode.value);
+                }
             }
         }
-        nodes = newNodes;
     }
 
 }
