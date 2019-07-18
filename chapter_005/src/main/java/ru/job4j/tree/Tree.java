@@ -46,6 +46,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return new Iterator<>() {
             private Queue<Node<E>> data = new LinkedList<>(List.of(root));
             private int expectedModCount = modCount;
+
             @Override
             public boolean hasNext() {
                 return !data.isEmpty();
@@ -56,15 +57,14 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                E result = null;
-                if (hasNext()) {
-                    Node<E> value = data.poll();
-                    for (Node<E> child : value.leaves()) {
-                        data.offer(child);
-                    }
-                    result = value.getValue();
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
                 }
-                return result;
+                Node<E> value = data.poll();
+                for (Node<E> child : value.leaves()) {
+                    data.offer(child);
+                }
+                return value.getValue();
             }
         };
     }
