@@ -11,41 +11,28 @@ public class Analize {
     */
     public Info diff(List<User> previous, List<User> current) {
         int added = 0, changed = 0, deleted;
-        boolean isAdded;
-        HashMap<User, Integer> previousMap = transformToMap(previous);
+        HashMap<Integer, User> previousMap = transformToMap(previous);
         for (User currentUser : current) {
-            isAdded = true;
-            for (User user : previousMap.keySet()) {
-                if (user.id == currentUser.id) {
-                    if (!user.name.equals(currentUser.name)) {
-                        changed++;
-                    }
-                    int value = previousMap.get(user);
-                    Integer oldValue = value == 1 ? previousMap.remove(user) : previousMap.put(user, value - 1);
-                    isAdded = false;
-                    break;
+           User user = previousMap.remove(currentUser.id);
+           if (Objects.nonNull(user)) {
+                if (!currentUser.name.equals(user.name)) {
+                    changed++;
                 }
-            }
-            if (isAdded) {
-                added++;
-            }
+           } else {
+               added++;
+           }
         }
-        deleted = previousMap.values().stream().mapToInt(Integer::intValue).sum();
+        deleted = previousMap.values().size();
         return new Info(added, changed, deleted);
     }
 
     /**
      *  Копирование List в Map
      */
-    public HashMap<User, Integer> transformToMap(List<User> list) {
-        HashMap<User, Integer> map = new HashMap<>();
+    public HashMap<Integer, User> transformToMap(List<User> list) {
+        HashMap<Integer, User> map = new HashMap<>();
         for (User user : list) {
-            if (!map.containsKey(user)) {
-                map.put(user, 1);
-            } else {
-                int value = map.get(user) + 1;
-                map.put(user, value);
-            }
+           map.put(user.id, user);
         }
         return map;
     }

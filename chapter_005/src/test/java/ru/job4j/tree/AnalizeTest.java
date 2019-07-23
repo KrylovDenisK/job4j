@@ -21,7 +21,7 @@ public class AnalizeTest {
                 current.add(new Analize.User(i, "Name_" + i));
             }
         }
-        previous.add(new Analize.User(0, "Name_" + 0));
+       // previous.add(new Analize.User(0, "Name_" + 0));
         for (int i = 10; i < 15; i++) {
             current.add(new Analize.User(i, "Name_" + i));
         }
@@ -31,7 +31,7 @@ public class AnalizeTest {
 
     @Test
     public void diff() {
-        Analize.Info expected = new Analize.Info(5, 1, 6);
+        Analize.Info expected = new Analize.Info(5, 1, 5);
         assertThat(analize.diff(previous, current), is(expected));
     }
 }
