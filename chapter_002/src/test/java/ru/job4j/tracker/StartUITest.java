@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.StringJoiner;
 import java.util.function.Consumer;
 
 import static org.hamcrest.core.Is.is;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertThat;
 public class StartUITest {
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final Consumer<String> output = new Consumer<String>() {
+    private final Consumer<String> output = new Consumer<>() {
         private final PrintStream stdout = new PrintStream(out);
         @Override
         public void accept(String s) {
@@ -63,28 +64,28 @@ public class StartUITest {
                 Item secondItem = tracker.add(new Item("name2", "desc2"));
                 Item threeItem = tracker.add(new Item("name3", "desc3"));
                 Input input = new StubInput(new String[]{"1", "6"});
-                StringBuilder expect = new StringBuilder()
-                        .append("0. Add items\r\n")
-                        .append("1. Show All items\r\n")
-                        .append("2. Edit item\r\n")
-                        .append("3. Delete item\r\n")
-                        .append("4. Find item by Id\r\n")
-                        .append("5. Find Items By Name\r\n")
-                        .append("6. Exit Program\r\n")
-                        .append("-------------- Список заявок---------------\r\n")
-                        .append("Наменование заявки: name1 ID заявки: " + firstItem.getId() + "\r\n")
-                        .append("Наменование заявки: name2 ID заявки: " + secondItem.getId() + "\r\n")
-                        .append("Наменование заявки: name3 ID заявки: " + threeItem.getId() + "\r\n")
-                        .append("0. Add items\r\n")
-                        .append("1. Show All items\r\n")
-                        .append("2. Edit item\r\n")
-                        .append("3. Delete item\r\n")
-                        .append("4. Find item by Id\r\n")
-                        .append("5. Find Items By Name\r\n")
-                        .append("6. Exit Program\r\n")
-                        .append("Завершение работы\r\n");
+                StringJoiner expect = new StringJoiner(System.lineSeparator())
+                        .add("0. Add items")
+                        .add("1. Show All items")
+                        .add("2. Edit item")
+                        .add("3. Delete item")
+                        .add("4. Find item by Id")
+                        .add("5. Find Items By Name")
+                        .add("6. Exit Program")
+                        .add("-------------- Список заявок---------------")
+                        .add("Наменование заявки: name1 ID заявки: " + firstItem.getId())
+                        .add("Наменование заявки: name2 ID заявки: " + secondItem.getId())
+                        .add("Наменование заявки: name3 ID заявки: " + threeItem.getId())
+                        .add("0. Add items")
+                        .add("1. Show All items")
+                        .add("2. Edit item")
+                        .add("3. Delete item")
+                        .add("4. Find item by Id")
+                        .add("5. Find Items By Name")
+                        .add("6. Exit Program")
+                        .add("Завершение работы");
                 new StartUI(input, tracker, output).init();
-                assertThat(out.toString(), is(expect.toString()));
+                assertThat(out.toString(), is(expect.toString() + System.lineSeparator()));
             }
             @Test
             public void whenFindItemByIdThenShowThisItem() {
@@ -93,26 +94,26 @@ public class StartUITest {
                 Item secondItem = tracker.add(new Item("name2", "desc2"));
                 Item threeItem = tracker.add(new Item("name3", "desc3"));
                 Input input = new StubInput(new String[]{"4", secondItem.getId(), "6"});
-                StringBuilder expect = new StringBuilder()
-                        .append("0. Add items\r\n")
-                        .append("1. Show All items\r\n")
-                        .append("2. Edit item\r\n")
-                        .append("3. Delete item\r\n")
-                        .append("4. Find item by Id\r\n")
-                        .append("5. Find Items By Name\r\n")
-                        .append("6. Exit Program\r\n")
-                        .append("------------ Поиск заявки по ID --------------\r\n")
-                        .append("Имя заявки: " + secondItem.getName() + " Описание заявки: " + secondItem.getDesc() + "\r\n")
-                        .append("0. Add items\r\n")
-                        .append("1. Show All items\r\n")
-                        .append("2. Edit item\r\n")
-                        .append("3. Delete item\r\n")
-                        .append("4. Find item by Id\r\n")
-                        .append("5. Find Items By Name\r\n")
-                        .append("6. Exit Program\r\n")
-                        .append("Завершение работы\r\n");
+                StringJoiner expect = new StringJoiner(System.lineSeparator())
+                        .add("0. Add items")
+                        .add("1. Show All items")
+                        .add("2. Edit item")
+                        .add("3. Delete item")
+                        .add("4. Find item by Id")
+                        .add("5. Find Items By Name")
+                        .add("6. Exit Program")
+                        .add("------------ Поиск заявки по ID --------------")
+                        .add("Имя заявки: " + secondItem.getName() + " Описание заявки: " + secondItem.getDesc() + "")
+                        .add("0. Add items")
+                        .add("1. Show All items")
+                        .add("2. Edit item")
+                        .add("3. Delete item")
+                        .add("4. Find item by Id")
+                        .add("5. Find Items By Name")
+                        .add("6. Exit Program")
+                        .add("Завершение работы");
                 new StartUI(input, tracker, output).init();
-                assertThat(out.toString(), is(expect.toString()));
+                assertThat(out.toString(), is(expect.toString() + System.lineSeparator()));
             }
 
     @Test

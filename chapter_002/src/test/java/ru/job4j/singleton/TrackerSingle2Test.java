@@ -33,13 +33,15 @@ public class TrackerSingle2Test {
     @Test
     public void whenTryCreateArrayObjectThenUseOneObjectFor2() {
          ArrayList<TrackerSingle2> single = new ArrayList<>();
-         for (int i = 0; i < 5; i++) {
+         for (int i = 0; i < 3; i++) {
              single.add(TrackerSingle2.getInstance());
          }
-        System.setOut(new PrintStream(out));
-        assertThat(out.toString(),
-                is("1\r\n1\r\n1\r\n1\r\n1\r\n"));
-        System.setOut(stdout);
+
+         String expected = "1" + System.lineSeparator() + "1" + System.lineSeparator() + "1" + System.lineSeparator();
+         System.setOut(new PrintStream(out));
+         assertThat(out.toString(),
+                is(expected));
+         System.setOut(stdout);
     }
     @Test
     public void whenTryCreateArrayObjectUseOneObjectFor4() {
