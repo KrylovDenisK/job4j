@@ -20,7 +20,7 @@ public class SearchTest {
 
     @Test
     public void whenFileSearchByGivenFormatsThenResultTrue() {
-        List<File> listFiles = search.files("C:\\Users\\user\\Desktop\\job4j\\test", List.of(".txt"));
+        List<File> listFiles = search.files("C:\\project\\job4j\\chapter_006\\test", List.of(".txt"));
         List<String> expected = List.of("1.txt", "2.txt", "test2.txt", "test21.txt");
         List<String> result = listFiles.stream().map(File::getName).collect(Collectors.toList());
         assertThat(result, is(expected));
