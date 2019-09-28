@@ -8,15 +8,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ConsoleChat {
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
     private List<String> wordsFile = new ArrayList<>();
-    private Random random = new Random();
-    private boolean enable = true;
+    private final Random random = new Random();
     private static final Logger LOGGER = LogManager.getLogger(ConsoleChat.class.getName());
-
-    public ConsoleChat() {
-        readWordsTheFile();
-    }
+    private static final String STOP = "stop";
+    private static final String END = "end";
+    private static final String CONTINUATION = "continuation";
+    private boolean enable = true;
 
     /**
      * Write date from file to list 'wordFile'
@@ -30,26 +29,27 @@ public class ConsoleChat {
     }
 
     public void question() {
+        readWordsTheFile();
         String question;
         System.out.println("Console chat!!!");
         do {
             String answer = "";
             System.out.print("Enter your line: ");
             question = scanner.nextLine();
-            if (question.equals("stop")) {
+            if (question.equals(STOP)) {
                 enable = false;
-            } else if (question.equals("continiue")) {
+            } else if (question.equals(CONTINUATION)) {
                 enable = true;
                 answer = getAnswer();
                 System.out.println(answer);
             } else {
-                if (enable && !question.equals("end")) {
+                if (enable && !question.equals(END)) {
                     answer = getAnswer();
                     System.out.println(answer);
                 }
             }
             LOGGER.info("Question: " + question + " " + "Answer: " + answer);
-        } while (!question.equals("end"));
+        } while (!question.equals(END));
     }
 
     /**
