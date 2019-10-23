@@ -1,0 +1,30 @@
+1) select p.name_product, t.name_type
+	from product AS p inner join type_product AS t
+	ON p.type_id = t.id AND t.name_type = 'СЫР';
+
+2) select name_product from product 
+where name_product like '%мороженое%';
+
+3) select name_product, expired_date from product
+	where EXTRACT(MONTH from expired_date) = EXTRACT(MONTH from current_date);  
+
+4) select name_product from product
+	where price = (select max(price) from product);
+
+5) select count(product.name_product)
+	from product inner join type_product ON product.type_id = type_product.id and name_type = 'СЫР';  
+
+6) select p.name_product, t.name_type
+	from product AS p inner join type_product AS t
+	ON p.type_id = t.id AND t.name_type = 'СЫР' OR t.name_type = 'МОЛОКО';
+
+7) select t.name_type from product AS p inner join type_product t ON p.type_id = t.id 
+	group by t.name_type 
+	having sum(p.count) < 10;
+
+8) select distinct p.name_product, t.name_type
+	from product AS p inner join type_product AS t
+	ON p.type_id = t.id;
+	
+	
+
