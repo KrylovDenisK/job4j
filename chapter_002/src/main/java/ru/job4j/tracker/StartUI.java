@@ -3,6 +3,7 @@ package ru.job4j.tracker;
 import ru.job4j.tracker.inputs.ConsoleInput;
 import ru.job4j.tracker.inputs.Input;
 import ru.job4j.tracker.inputs.ValidateInput;
+import ru.job4j.tracker.sql.TrackerSQL;
 
 import java.util.function.Consumer;
 
@@ -13,13 +14,13 @@ public class StartUI {
     /**
      * Хранилище заявок.
      */
-    private final Tracker tracker;
+    private final ITracker tracker;
     /**
      * Конструтор инициализирующий поля.
      * @param input ввод данных.
      * @param tracker хранилище заявок.
      */
-    public StartUI(Input input, Tracker tracker, Consumer<String> output) {
+    public StartUI(Input input, ITracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
         this.output = output;
@@ -45,7 +46,12 @@ public class StartUI {
     }
 
         public static void main(String[] args) {
-            new StartUI(new ValidateInput(new ConsoleInput(), System.out::println), new Tracker(), System.out::println).init();
+            try (TrackerSQL trackerSQL = new TrackerSQL()) {
+                new StartUI(new ValidateInput(new ConsoleInput(), System.out::println), trackerSQL, System.out::println).init();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
 }

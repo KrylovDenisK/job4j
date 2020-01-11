@@ -20,6 +20,7 @@
         <module>chapter_004</module>
 		<module>chapter_005</module>
         <module>chapter_006</module>
+        <module>chapter_007</module>
     </modules>
 	 
 	 <build>
@@ -117,8 +118,11 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
-</dependencies>
-	 
-	 
-	 
+        <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
+        </dependency>
+    </dependencies>
 </project>

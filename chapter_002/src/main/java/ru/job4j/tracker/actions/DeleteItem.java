@@ -1,6 +1,6 @@
 package ru.job4j.tracker.actions;
 
-import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.ITracker;
 import ru.job4j.tracker.inputs.Input;
 
 import java.util.function.Consumer;
@@ -11,7 +11,7 @@ public class DeleteItem extends BaseAction {
         super(key, name, output);
     }
     @Override
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, ITracker tracker) {
         super.getOutput().accept("--------------Удаление заявки-------------");
         String id = input.ask("Введите id заявки:");
         if (tracker.delete(id)) {
