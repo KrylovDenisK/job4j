@@ -28,10 +28,11 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                     config.getProperty("username"),
                     config.getProperty("password")
             );
-            Statement st = connect.createStatement();
-            st.execute("CREATE TABLE if not exists items (id serial, name varchar(100), description varchar(100), PRIMARY KEY (id))");
+            try (Statement st = connect.createStatement()) {
+                st.execute("CREATE TABLE if not exists items (id serial, name varchar(100), description varchar(100), PRIMARY KEY (id))");
+            }
         } catch (Exception e) {
-            throw new IllegalArgumentException(e);
+            LOGGER.error(e.getMessage(), e);
         }
         return this.connect != null;
     }
@@ -61,7 +62,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 }
             }
         } catch (SQLException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
         }
         return item;
     }
@@ -78,7 +79,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 result = true;
             }
         } catch (SQLException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
         }
         return result;
     }
@@ -91,7 +92,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             st.setInt(1, Integer.valueOf(id));
             result = st.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
         }
         return result == 1;
     }
@@ -111,7 +112,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                );
            }
         } catch (SQLException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
         }
         return items;
     }
@@ -131,7 +132,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 );
             }
         } catch (SQLException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
         }
         return items;
     }
@@ -151,7 +152,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 );
             }
         } catch (SQLException e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
         }
         return item;
     }
