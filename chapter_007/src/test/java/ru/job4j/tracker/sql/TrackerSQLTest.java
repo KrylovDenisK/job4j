@@ -40,5 +40,4 @@ public class TrackerSQLTest {
         sql.delete(expected.getId());
         assertThat(result, is(List.of(expected)));
     }
-
 }

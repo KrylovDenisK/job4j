@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -23,14 +24,14 @@ public class StoreXML {
     public void save(List<Entry> list) {
         Entries entryes = new Entries();
         entryes.setEntries(list);
-        try {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(target)) {
             JAXBContext jaxbContext = JAXBContext.newInstance(Entries.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.marshal(
-                entryes,
-                new FileOutputStream(target)
-        );
-        } catch (JAXBException | FileNotFoundException e) {
+                    entryes,
+                    fileOutputStream
+            );
+        } catch (JAXBException | IOException e) {
             e.printStackTrace();
         }
     }

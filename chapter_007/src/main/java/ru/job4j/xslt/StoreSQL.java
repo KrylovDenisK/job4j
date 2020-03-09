@@ -18,16 +18,18 @@ public class StoreSQL implements AutoCloseable {
     /**
      * connect to database
      */
-    public void init() {
+    public boolean init() {
         try {
             connect = DriverManager.getConnection(config.get("url"));
-            Statement statement = connect.createStatement();
-            statement.execute("create table if not exists entry (field integer)");
-            statement.close();
+            try (Statement statement = connect.createStatement()) {
+                statement.execute("create table if not exists entry (field integer)");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return connect != null;
     }
+
     public Connection getConnection() {
         if (Objects.isNull(connect)) {
             init();
@@ -37,22 +39,22 @@ public class StoreSQL implements AutoCloseable {
     /**
      Generation of values​and their recording in the database
      */
-    public void generate(int size) {
-        String values = "";
-        for (int i = 1; i <= size; i++) {
-           values = i != size ? values + "(" + i + ")," : values + "(" + i + ")";
-        }
+    public void generate(int size) throws SQLException {
         Connection connection = getConnection();
+        connection.setAutoCommit(false);
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("delete from entry");
-            statement.executeUpdate("insert into entry values " + values);
+            statement.addBatch("delete from entry");
+            for (int i = 1; i <= size; i++) {
+                statement.addBatch("insert into entry values (" + i + ")");
+            }
+            statement.executeBatch();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     *
      * saving the contents of the database in list
      * @return
      */

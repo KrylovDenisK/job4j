@@ -7,7 +7,7 @@ public class Config {
     private final Properties values = new Properties();
 
     public void init() {
-        try (InputStream in = Config.class.getClassLoader().getResourceAsStream("app.properties")) {
+        try (InputStream in = Config.class.getClassLoader().getResourceAsStream("sqlLite.properties")) {
             values.load(in);
         } catch (Exception e) {
             throw new IllegalStateException(e);
