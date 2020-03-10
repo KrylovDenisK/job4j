@@ -3,6 +3,7 @@ package ru.job4j.tracker;
 import ru.job4j.tracker.inputs.ConsoleInput;
 import ru.job4j.tracker.inputs.Input;
 import ru.job4j.tracker.inputs.ValidateInput;
+import ru.job4j.tracker.sql.DataSource;
 import ru.job4j.tracker.sql.TrackerSQL;
 
 import java.util.function.Consumer;
@@ -46,7 +47,7 @@ public class StartUI {
     }
 
         public static void main(String[] args) {
-            try (TrackerSQL trackerSQL = new TrackerSQL()) {
+            try (TrackerSQL trackerSQL = new TrackerSQL(new DataSource().getConnection())) {
                 new StartUI(new ValidateInput(new ConsoleInput(), System.out::println), trackerSQL, System.out::println).init();
             } catch (Exception e) {
                 e.printStackTrace();
