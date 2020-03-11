@@ -27,7 +27,7 @@ public class AnalizyTest {
         expect.put("10:59:01", "200");
         expect.put("11:01:02", "500");
         expect.put("11:02:02", "200");
-        analizy.convertDataFileToMap("C:\\project\\server.log");
+        analizy.convertDataFileToMap(Analizy.class.getClassLoader().getResource("server.log").getPath());
         assertThat(analizy.getValues(), is(expect));
     }
 
